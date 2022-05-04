@@ -34,17 +34,19 @@ export default function App() {
         <main>
             <div className="app-container">
                 <section className="start-section">
-                    <h1>Obinna's Trivia Quiz</h1>
+                    <div className="header-image">
+                        <h1>Obinna's Trivia Quiz</h1>
+                        <p>Fun trivia games</p>
+                    </div>
+                    
                     <form>
-                        <label htmlFor="quizCategory">Select category</label>
-                        <br />
                         <select 
-                            id="favColor"
+                            id="quizCategory"
                             value={formData.quizCategory}
                             onChange={""}
                             name="quizCategory"
                         >
-                            <option value="">-- Choose --</option>
+                            <option value="">-- Choose category --</option>
                             <option value="9">General Knowledge</option>
                             <option value="10">Entertainment: Books</option>
                             <option value="11">Entertainment: Film</option>
@@ -71,15 +73,13 @@ export default function App() {
                             <option value="32">Entertainment: Cartoon and Animations</option>
                         </select>
                         <br />
-                        <label htmlFor="quizCategory">Select difficulty</label>
-                        <br />
                         <select 
-                            id="favColor"
-                            value={formData.quizCategory}
+                            id="quizDifficulty"
+                            value={formData.quizDifficulty}
                             onChange={""}
-                            name="quizCategory"
+                            name="quizDifficulty"
                         >
-                            <option value="">-- Choose --</option>
+                            <option value="">-- Choose difficulty --</option>
                             <option value="easy">Easy 😃</option>
                             <option value="medium">Medium 😅</option>
                             <option value="hard">Hard 🥵</option>
@@ -88,6 +88,7 @@ export default function App() {
 
                     <button className="start-btn">Start quiz</button>
                 </section>
+                <p>Made with ❤️ by Obinna-Dev</p>
                 {/* <Questions /> */}
             </div>
         </main>

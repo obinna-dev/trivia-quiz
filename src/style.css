@@ -5,6 +5,108 @@ body {
     background-color: #F5F7FB;
 }
 
+.app-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.start-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 5rem;
+    background-color: #f9fbfd;
+    width: 450px;
+    padding: 0.75rem;
+    border-radius: 10px;
+	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.start-section > p {
+    margin: 0;
+}
+
+.header-image > h1  {
+    padding-top: 2rem;
+    padding-left: 2rem;
+    font-size: 2rem;
+    margin: 0;
+}
+
+.header-image > p {
+    font-size: 1.3rem;
+    padding-left: 2rem;
+    margin: 0;
+}
+
+
+.header-image {
+    background-image: url(https://user-images.githubusercontent.com/100476375/166729405-a4ed4009-25a5-4280-9db2-c28c10b73209.jpg);
+    width: 100%;
+    border-radius: 8px;
+	overflow: hidden;
+	padding-bottom: 40%;
+    background-repeat: no-repeat;
+	background-size: 145%;
+	background-position: 0 5%;
+	position: relative;
+}
+
+.button--results-container  {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.5rem 0;
+}
+
+.start-btn,
+.submit-btn {
+    background-color: #4D5B9E;
+    color: white;
+    border: none;
+    padding: 1.3rem 1.38rem;
+    border-radius: 7px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.start-btn:hover,
+.submit-btn:hover {
+    background-color: #414d86;
+}
+
+.start-btn:active,
+.submit-btn:active {
+    background-color: #293054;
+}
+
+.final-results  {
+    margin: 0;
+}
+
+form    {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+form > label    {
+    font-size: 1.1rem;
+    margin-top: 1rem;
+}
+
+select  {
+    border: none;
+    background-color: rgba(0, 0, 0, 0.071);
+    padding: 1.3rem 1.38rem;
+    border-radius: 7px;
+    color: #293264;
+}
+
 .answers-container  {
     display: flex;
     flex-wrap: wrap;
@@ -50,44 +152,4 @@ hr  {
     height: 0.9px;
     background-image: linear-gradient(#d0d3e4, rgba(0, 0, 0, 0));
     margin: 2rem 0;
-}
-
-
-.start-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    margin-top: 10rem;
-}
-
-.start-section > h1, p {
-    margin: 0;
-}
-
-.button--results-container  {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    align-items: center;
-    padding: 0.5rem 0;
-}
-
-.start-btn,
-.submit-btn {
-    background-color: #4D5B9E;
-    color: white;
-    border: none;
-    padding: 0.69rem 1.38rem;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-.start-btn:hover,
-.submit-btn:hover {
-    background-color: #414d86;
-}
-
-.final-results  {
-    margin: 0;
 }
