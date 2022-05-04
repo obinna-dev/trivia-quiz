@@ -41,6 +41,10 @@ export default function Questions() {
                 </div>
                 <hr />
             </div>
+            <div className="button--results-container">
+                <h2 className="final-results">You scored 3/5 correct answers</h2>
+                <button className="submit-btn">Check answers</button>
+            </div>
         </section>
     )
 }
