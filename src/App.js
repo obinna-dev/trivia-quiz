@@ -7,28 +7,27 @@ export default function App() {
     
 
     const [questions, setQuestions] = React.useState([])
-    const [loading, setLoading] = React.useState(true)
-    const [error, setError] = React.useState(null)
+    console.log(questions)
 
-    React.useEffect(()=>{getData()}, [])
-
-    const getData = async () => {
-        const response = await fetch("url")
-        if (!response.ok) {
-            throw new Error(`Oops! 🙊 Something went wrong. The HTTP error status is ${response.status}`)
-        }
-        let question = await response.json()
-
-
-
-        // setQuestions(await response.json())
+    function fetchData() {
+        console.log(`fetch data button working. Difficulty is ${formData.quizDifficulty} and category is ${formData.quizCategory}`)
+        fetch(`https://opentdb.com/api.php?amount=10&category=20&difficulty=easy`)
+        .then(res => res.json())
+        .then(data => setQuestions(data))
+        console.log(questions)
     }
-
 
     const [formData, setFormData] = React.useState({
             quizCategory: "", 
             quizDifficulty: ""
     })
+
+    function handleChange(event) {
+        const {name, value} = event.target
+        setFormData(prevFormData => {
+            return {...prevFormData, [name]: value}
+        })
+    }
 
     return (
         <main>
@@ -43,7 +42,7 @@ export default function App() {
                         <select 
                             id="quizCategory"
                             value={formData.quizCategory}
-                            onChange={""}
+                            onChange={handleChange}
                             name="quizCategory"
                         >
                             <option value="">-- Choose category --</option>
@@ -76,7 +75,7 @@ export default function App() {
                         <select 
                             id="quizDifficulty"
                             value={formData.quizDifficulty}
-                            onChange={""}
+                            onChange={handleChange}
                             name="quizDifficulty"
                         >
                             <option value="">-- Choose difficulty --</option>
@@ -86,7 +85,7 @@ export default function App() {
                         </select>
                     </form>
 
-                    <button className="start-btn">Start quiz</button>
+                    <button className="start-btn" onClick={fetchData}>Start quiz</button>
                 </section>
                 <p>Made with ❤️ by Obinna-Dev</p>
                 {/* <Questions /> */}
