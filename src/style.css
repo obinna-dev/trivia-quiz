@@ -65,7 +65,6 @@ body {
     margin: 0;
 }
 
-
 .header-image {
     background-image: url(https://user-images.githubusercontent.com/100476375/166729405-a4ed4009-25a5-4280-9db2-c28c10b73209.jpg);
     width: 100%;
@@ -88,6 +87,7 @@ body {
 
 .start-btn,
 .submit-btn {
+    font-size: 1.3rem;
     background-color: #4D5B9E;
     color: white;
     border: none;
@@ -134,6 +134,44 @@ select  {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
+}
+
+.radio input[type= "radio"] {
+    opacity: 50%;  
+}
+
+/* .radio input[type= "radio"]:checked+label {
+    border: 1px solid #D6DBF5;
+    background-color: #D6DBF5; 
+} */
+
+.radio.selected label {
+    border: 1px solid #D6DBF5;
+    background-color: #D6DBF5; 
+}
+
+.radio label {
+    border: 1px solid #4D5B9E;
+    background-color: #F5F7FB;
+    border-radius: 0.5rem;
+    padding: 0.26rem 1rem;
+    width: fit-content;
+    margin: 0;
+    cursor: pointer; 
+}
+
+.radio label:hover {
+    filter: brightness(95%) 
+}
+
+.radio.correct label {
+    border: 1px solid #94D7A2;
+    background-color: #94D7A2;
+}
+
+.radio.wrong label {
+    border: 1px solid #F8BCBC;
+    background-color: #F8BCBC;
 }
 
 .answers {

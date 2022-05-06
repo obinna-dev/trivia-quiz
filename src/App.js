@@ -9,9 +9,10 @@ export default function App() {
     const [allQuestions, setAllQuestions] = React.useState([])
     const [renderQuiz, setRenderQuiz] = React.useState(false)
     const [fetchErr, setFetchErr] = React.useState(null)
-
+    // const [disabled, setDisabled] = React.useState(false)
+    const [trackScore, setTrackScore] = React.useState(0)
     const [formData, setFormData] = React.useState({
-        quizCategory: "",
+        quizCategory: 0,
         quizDifficulty: ""
     })
 
@@ -30,32 +31,60 @@ export default function App() {
             const data = await response.json()
             setAllQuestions(data.results)
             setFetchErr(null)
-            console.log(allQuestions)
+            // console.log(allQuestions)
         } catch (err) {
             setFetchErr(err.message)
         }   
     }
 
     function startQuiz() {
-        setAllQuestions(prevState => prevState.map(item => {
+                setAllQuestions(prevState => prevState.map(item => {
                 const answers = [...item.incorrect_answers]
                 answers.unshift(item.correct_answer)
                 const shuffledAnswers = answers.sort(() => Math.random() - 0.5)
                 const allAnswers = shuffledAnswers.map(answer => ({
                     answer: answer,
                     isCorrect: false,
+                    isWrong: false,
                     isHeld: false,
-                    id: nanoid
+                    disabled: false,
+                    id: nanoid()
                 })
                 )
                 return {
                     question: item.question,
                     correct_answer: item.correct_answer,
-                    allAnswers: allAnswers
+                    allAnswers: allAnswers,
+                    questionId: nanoid()
                 }         
         })
         )
-        setRenderQuiz(prevState => true)
+        setRenderQuiz(true)  
+    }
+
+    function checkAnswers() {
+        setAllQuestions(prevState => prevState.map(item => {
+            const correctAnswer = item.allAnswers.map(answer => (
+                answer.answer === item.correct_answer ? {...answer, isCorrect: true}
+                : {...answer, isWrong: true}
+            ))
+            return {...item, allAnswers: correctAnswer}
+        }
+        ))
+        console.log("examiner button clicked")
+    }
+
+    function selectAnswer(id){
+        console.log(`user selected this answer ${id}`)
+        setAllQuestions(prevState => prevState.map(item => {
+            const allAnswers = item.allAnswers.map(answer => (
+                answer.id === id ? {...answer, isHeld: true}
+                // : answer
+                : {...answer, isHeld: false, disabled: true}
+            )
+            )
+            return {...item, allAnswers: allAnswers}
+        }))
     }
 
     //Temp button to check state without triggering startquiz function again
@@ -64,24 +93,24 @@ export default function App() {
     }
 
     const allRenderedQuestions = allQuestions.map(item => {
-        return <Questions question={item.question} answers={item.allAnswers}/>
+        return <Questions question={item.question} answers={item.allAnswers} correctAnswer={item.correct_answer} selectAnswer={selectAnswer}/>
     })
 
     return (
         <main>
             <div className="app-container">
-                <Start handleChange={handleChange} formData={formData} startQuiz={startQuiz}/>
-                {/* <button onClick={checkConsole}>console.log</button> */}
+                { !renderQuiz && <Start handleChange={handleChange} formData={formData} startQuiz={startQuiz}/>}
 
-                <section className="questions-section">
-                    { renderQuiz && allRenderedQuestions }
-
-                    <div className="button--results-container">
-                        <h2 className="final-results">You scored 3/5 correct answers</h2>
-                        <button className="submit-btn">Check answers</button>
-                    </div>
-                </section>
-                
+                { renderQuiz &&
+                    <section className="questions-section">
+                        <button onClick={checkConsole}>console.log</button>
+                        {allRenderedQuestions}
+                    </section>
+                }
+                <div className="button--results-container">
+                    <h2 className="final-results">You scored 3/5 correct answers</h2>
+                    <button className="submit-btn" onClick={checkAnswers}>Check answers</button>
+                </div>
             </div>
         </main>
     )

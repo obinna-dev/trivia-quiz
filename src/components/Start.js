@@ -7,7 +7,7 @@ export default function Start(props) {
                         <p>Fun trivia games</p>
                     </div>
                     
-                    <p>{props.questions}</p>
+                    Please choose a category and difficulty level
 
                     <form>
                         <select 

@@ -1,16 +1,50 @@
 export default function Questions(props) {
-
+    
     const allAnswers = props.answers.map(item => {
-        return <p className="answers selected">{item.answer}</p>
+        // const styles = 
+        //     className: 
+        // return <p className= {item.isHeld ? "answers selected" : "answers"} onClick={()=>{props.selectAnswer(item.id)}}>{item.answer}</p>
+        // return <p className= {
+        //     item.isHeld ? "answers selected" 
+        //     : item.isCorrect ? "answers correct" 
+        //     : item.isWrong ? "answers wrong" 
+        //     : "answers"} 
+        //     onClick={()=>{props.selectAnswer(item.id)}}>{item.answer}</p>
+
+        return <div className= {item.isHeld ? "radio selected" 
+                        : item.isCorrect ? "radio correct"
+                        : item.isWrong ? "radio wrong"
+                        : "radio"
+                        }> 
+                    <input 
+                        type="radio"
+                        id={item.id}
+                        name={props.question}
+                        value={item.answer}
+                        disabled = {item.disabled}
+                        onClick={()=>{props.selectAnswer(item.id)}} />
+                    <label htmlFor={item.id}>{item.answer}</label>
+                </div>
+
+        // return <div className= "radio" style = {styles}>                    
+        //             <input 
+        //             type="radio"
+        //             id={item.id}
+        //             name={props.question}
+        //             value={item.answer}
+        //             onClick={()=>{props.selectAnswer(item.id)}} />
+        //             <label htmlFor={item.id}>{item.answer}</label>
+        //         </div>
     })
 
-    console.log(props.question)
+    // console.log(props.answers)
 
     return (
             <div className="question-container">
                 <h3 className="question">{props.question}</h3>
                 <div className="answers-container">
                     {allAnswers}
+                    <p><em>{props.correctAnswer}</em></p>
                 </div>
                 <hr />
             </div>
