@@ -7,6 +7,8 @@ export default function Start(props) {
                         <p>Fun trivia games</p>
                     </div>
                     
+                    <p>{props.questions}</p>
+
                     <form>
                         <select 
                             id="quizCategory"
@@ -53,7 +55,7 @@ export default function Start(props) {
                             <option value="hard">Hard 🥵</option>
                         </select>
                     </form>
-                    <button className="start-btn" onClick={props.fetchData}>Start quiz</button>
+                    <button className="start-btn" onClick={props.startQuiz}>Start quiz</button>
             </div>
             <p>Made with ❤️ by Obinna-Dev</p>
         </section>

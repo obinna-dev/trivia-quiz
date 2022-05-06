@@ -2,30 +2,17 @@ import React from "react"
 import Start from "../src/components/Start"
 import Questions from "../src/components/Questions"
 import "../src/style.css"
+import { nanoid } from "nanoid"
 
 export default function App() {
 
-    const [questions, setQuestions] = React.useState([])
+    const [allQuestions, setAllQuestions] = React.useState([])
+    const [renderQuiz, setRenderQuiz] = React.useState(false)
     const [fetchErr, setFetchErr] = React.useState(null)
 
-    const fetchData = async () => {
-        try {
-            const response = await fetch(`https://opentdb.com/api.php?amount=10&category=${formData.quizCategory}&difficulty=${formData.quizDifficulty}`)
-            if (!response.ok) throw Error("Oops! 🙊 Something went wrong. Did not receive expected data from the API")
-            const data = await response.json()
-            // console.log(data)
-            setQuestions(data)
-            setFetchErr(null)
-            console.log(questions)
-        } catch (err) {
-            setFetchErr(err.message)
-        }
-        console.log("button clicked")
-    }
-
     const [formData, setFormData] = React.useState({
-            quizCategory: "", 
-            quizDifficulty: ""
+        quizCategory: "",
+        quizDifficulty: ""
     })
 
     function handleChange(event) {
@@ -33,42 +20,68 @@ export default function App() {
         setFormData(prevFormData => {
             return {...prevFormData, [name]: value}
         })
+        fetchData()
     }
 
-    let theQuestion = ""
-    let answersArr = []
+    const fetchData = async () => {
+        try {
+            const response = await fetch(`https://opentdb.com/api.php?amount=10&category=${formData.quizCategory}&difficulty=${formData.quizDifficulty}`)
+            if (!response.ok) throw Error("Oops! 🙊 Something went wrong. Did not receive expected data from the API")
+            const data = await response.json()
+            setAllQuestions(data.results)
+            setFetchErr(null)
+            console.log(allQuestions)
+        } catch (err) {
+            setFetchErr(err.message)
+        }   
+    }
 
-    function generateQuiz() {
-        questions.map(question => {
-            theQuestion = question.question
-            answersArr = [question.correct_answer, question.incorrect_answers[0], question.incorrect_answers[1], question.incorrect_answers[2]]
+    function startQuiz() {
+        setAllQuestions(prevState => prevState.map(item => {
+                const answers = [...item.incorrect_answers]
+                answers.unshift(item.correct_answer)
+                const shuffledAnswers = answers.sort(() => Math.random() - 0.5)
+                const allAnswers = shuffledAnswers.map(answer => ({
+                    answer: answer,
+                    isCorrect: false,
+                    isHeld: false,
+                    id: nanoid
+                })
+                )
+                return {
+                    question: item.question,
+                    correct_answer: item.correct_answer,
+                    allAnswers: allAnswers
+                }         
         })
-        console.log(answersArr)
+        )
+        setRenderQuiz(prevState => true)
     }
 
-    generateQuiz()
-        
+    //Temp button to check state without triggering startquiz function again
+    function checkConsole() {
+        console.log(allQuestions)
+    }
 
-
-        // <Questions question={question.question}
-        // correctAnswer={question.correct_answer}
-        // incorrectAnswer1={question.incorrect_answers[0]}/> 
-        // <div className="question-container">
-        //         <h3 className="question">{question}</h3>
-        //         <div className="answers-container">
-        //             <p className="answers selected">Adiós</p>
-        //             <p className="answers correct">Hola</p>
-        //             <p className="answers deactive">Au Revoir</p>
-        //             <p className="answers wrong">Salir</p>
-        //         </div>
-        //         <hr />
-        //     </div>
+    const allRenderedQuestions = allQuestions.map(item => {
+        return <Questions question={item.question} answers={item.allAnswers}/>
+    })
 
     return (
         <main>
             <div className="app-container">
-                <Start handleChange={handleChange} formData={formData} fetchData={fetchData}/>
-                <Questions />
+                <Start handleChange={handleChange} formData={formData} startQuiz={startQuiz}/>
+                {/* <button onClick={checkConsole}>console.log</button> */}
+
+                <section className="questions-section">
+                    { renderQuiz && allRenderedQuestions }
+
+                    <div className="button--results-container">
+                        <h2 className="final-results">You scored 3/5 correct answers</h2>
+                        <button className="submit-btn">Check answers</button>
+                    </div>
+                </section>
+                
             </div>
         </main>
     )
