@@ -150,6 +150,11 @@ select  {
     background-color: #D6DBF5; 
 }
 
+input[type="radio"]:checked+label {
+    border: 1px solid #D6DBF5;
+    background-color: #D6DBF5; 
+  }
+
 .radio label {
     border: 1px solid #4D5B9E;
     background-color: #F5F7FB;

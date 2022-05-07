@@ -5,13 +5,13 @@ export default function Questions(props) {
         //     className: 
         // return <p className= {item.isHeld ? "answers selected" : "answers"} onClick={()=>{props.selectAnswer(item.id)}}>{item.answer}</p>
         // return <p className= {
-        //     item.isHeld ? "answers selected" 
+        //     item.isHeld && props.questionHeld ? "answers selected" 
         //     : item.isCorrect ? "answers correct" 
         //     : item.isWrong ? "answers wrong" 
         //     : "answers"} 
-        //     onClick={()=>{props.selectAnswer(item.id)}}>{item.answer}</p>
+        //     onClick={()=>{props.selectAnswer(item.id, props.questionId)}}>{item.answer}</p>
 
-        return <div className= {item.isHeld ? "radio selected" 
+        return  <div className= {item.isHeld ? "radio selected" 
                         : item.isCorrect ? "radio correct"
                         : item.isWrong ? "radio wrong"
                         : "radio"
@@ -19,10 +19,11 @@ export default function Questions(props) {
                     <input 
                         type="radio"
                         id={item.id}
+                        questionid={props.questionId}
                         name={props.question}
-                        value={item.answer}
+                        value={item.id}
                         disabled = {item.disabled}
-                        onClick={()=>{props.selectAnswer(item.id)}} />
+                        onClick={props.handleSelectAnswer} />
                     <label htmlFor={item.id}>{item.answer}</label>
                 </div>
 

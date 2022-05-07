@@ -10,11 +10,21 @@ export default function App() {
     const [renderQuiz, setRenderQuiz] = React.useState(false)
     const [fetchErr, setFetchErr] = React.useState(null)
     // const [disabled, setDisabled] = React.useState(false)
-    const [trackScore, setTrackScore] = React.useState(0)
+    const [trackScore, setTrackScore] = React.useState([])
+    const [userAnswers, setUserAnswers] = React.useState({})
     const [formData, setFormData] = React.useState({
         quizCategory: 0,
         quizDifficulty: ""
     })
+
+    function handleSelectAnswer(event) {
+        const {name, value} = event.target
+        console.log(`user selected this answer ${value} to the question ${name}`)
+        setUserAnswers(prevState => {
+            return {...prevState,[name]: value}
+        })
+        console.log(userAnswers)
+    }
 
     function handleChange(event) {
         const {name, value} = event.target
@@ -55,6 +65,7 @@ export default function App() {
                     question: item.question,
                     correct_answer: item.correct_answer,
                     allAnswers: allAnswers,
+                    questionIsHeld: false,
                     questionId: nanoid()
                 }         
         })
@@ -63,6 +74,7 @@ export default function App() {
     }
 
     function checkAnswers() {
+        getCorrectAnswerId()
         setAllQuestions(prevState => prevState.map(item => {
             const correctAnswer = item.allAnswers.map(answer => (
                 answer.answer === item.correct_answer ? {...answer, isCorrect: true}
@@ -72,20 +84,46 @@ export default function App() {
         }
         ))
         console.log("examiner button clicked")
+        console.log(correctAnswerId)
+        console.log(userAnswersArray)
+        console.log(userGotRight)
     }
 
-    function selectAnswer(id){
-        console.log(`user selected this answer ${id}`)
-        setAllQuestions(prevState => prevState.map(item => {
-            const allAnswers = item.allAnswers.map(answer => (
-                answer.id === id ? {...answer, isHeld: true}
-                // : answer
-                : {...answer, isHeld: false, disabled: true}
-            )
-            )
-            return {...item, allAnswers: allAnswers}
-        }))
+    let correctAnswerId = []
+    let userAnswersArray = []
+    let userGotRight
+
+    function getCorrectAnswerId() {
+        allQuestions.map(item => {
+            item.allAnswers.map(answer => (
+                item.correct_answer === answer.answer && correctAnswerId.push(answer.id)
+        ))
+        })
+        userAnswersArray = Object.values(userAnswers)
+        userGotRight = userAnswersArray.filter((obj) => correctAnswerId.indexOf(obj) !==-1)
     }
+
+
+
+    // function selectAnswer(id, questionId){
+    //     console.log(`user selected this answer ${id} to the question ${questionId}`)
+    //     setAllQuestions(prevState => prevState.map(item => {
+    //             const allAnswers = item.allAnswers.map(answer => {
+    //                 if (item.questionId === questionId && answer.id === id) {
+    //                     return {...answer, isHeld: true}
+    //                 } else return {...answer, isHeld: false}
+    //                 // answer.id === id && item.questionId === questionId ? {...answer, isHeld: true}
+    //                 // : answer
+    //                 // : {...answer, isHeld: false, disabled: true}
+    //                 // : answer.id !== id && item.questionId === questionId ? {...answer, isHeld: false, disabled: true}
+    //             }
+    //             )  
+    //         return {...item, allAnswers: allAnswers}
+    // }  
+        
+    //     ))
+    
+    // }
 
     //Temp button to check state without triggering startquiz function again
     function checkConsole() {
@@ -93,7 +131,7 @@ export default function App() {
     }
 
     const allRenderedQuestions = allQuestions.map(item => {
-        return <Questions question={item.question} answers={item.allAnswers} correctAnswer={item.correct_answer} selectAnswer={selectAnswer}/>
+        return <Questions handleSelectAnswer={handleSelectAnswer} question={item.question} questionId={item.questionId} questionHeld={item.questionIsHeld} answers={item.allAnswers} correctAnswer={item.correct_answer}/>
     })
 
     return (
