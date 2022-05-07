@@ -9,8 +9,8 @@ export default function App() {
     const [allQuestions, setAllQuestions] = React.useState([])
     const [renderQuiz, setRenderQuiz] = React.useState(false)
     const [fetchErr, setFetchErr] = React.useState(null)
-    // const [disabled, setDisabled] = React.useState(false)
-    const [trackScore, setTrackScore] = React.useState([])
+    const [trackScore, setTrackScore] = React.useState(0)
+    // const [correctAnswersId, setCorrectAnswersId] = ([])
     const [userAnswers, setUserAnswers] = React.useState({})
     const [formData, setFormData] = React.useState({
         quizCategory: 0,
@@ -18,13 +18,23 @@ export default function App() {
     })
 
     function handleSelectAnswer(event) {
-        const {name, value} = event.target
+        const {name, value, id} = event.target
         console.log(`user selected this answer ${value} to the question ${name}`)
         setUserAnswers(prevState => {
             return {...prevState,[name]: value}
         })
+        // setAllQuestions(prevState => prevState.map(item => {
+        //         item.allAnswers.map(answer => (
+        //         answer.id === id && {...answer, isHeld: true}
+        //     ))
+        //      }
+        //     ))
         console.log(userAnswers)
     }
+
+
+ 
+
 
     function handleChange(event) {
         const {name, value} = event.target
@@ -75,35 +85,53 @@ export default function App() {
 
     function checkAnswers() {
         getCorrectAnswerId()
+        // checkWrongAnswers()
         setAllQuestions(prevState => prevState.map(item => {
             const correctAnswer = item.allAnswers.map(answer => (
                 answer.answer === item.correct_answer ? {...answer, isCorrect: true}
-                : {...answer, isWrong: true}
+                : answer.isHeld && answer.answer !== item.correct_answer ? {...answer, isWrong: true}
+                : {...answer}
+
+                // : {...answer}
             ))
             return {...item, allAnswers: correctAnswer}
         }
         ))
-        console.log("examiner button clicked")
-        console.log(correctAnswerId)
-        console.log(userAnswersArray)
-        console.log(userGotRight)
     }
 
-    let correctAnswerId = []
-    let userAnswersArray = []
-    let userGotRight
+    function checkWrongAnswers() {
+        // setAllQuestions(prevState => prevState.map(item => {
+        //     const wrongAnswer = item.allAnswers.map(answer => (
+        //         answer.isHeld && answer.answer !== item.correct_answer ? {...answer, isWrong: true}
+        //         : {...answer}
+        //     ))
+        //     return {...item, allAnswers: wrongAnswer}
+        // }
+        // ))
+    }
+
+    // loop through answers in allAnswers.
+    // if answer isHeld, then check the answer.id !== correct_answer id
+    // if answer.id !== correct_answer id, then toggle answer.isWrong = true
+    // use answer.isWrong = true to select CSS style in conditional
+
+
 
     function getCorrectAnswerId() {
+        const correctAnswerId = []
         allQuestions.map(item => {
             item.allAnswers.map(answer => (
                 item.correct_answer === answer.answer && correctAnswerId.push(answer.id)
         ))
         })
-        userAnswersArray = Object.values(userAnswers)
-        userGotRight = userAnswersArray.filter((obj) => correctAnswerId.indexOf(obj) !==-1)
+        const userAnswersArray = Object.values(userAnswers)
+        const userGotRight = userAnswersArray.filter((obj) => correctAnswerId.indexOf(obj) !==-1)
+        setTrackScore(userGotRight.length)
     }
 
-
+    
+    console.log(`User got ${trackScore} answers right`)
+    // console.log(`these are the correct answers id ${correctAnswersId}`)
 
     // function selectAnswer(id, questionId){
     //     console.log(`user selected this answer ${id} to the question ${questionId}`)
