@@ -4,28 +4,35 @@ export default function Questions(props) {
         // const styles = 
         //     className: 
         // return <p className= {item.isHeld ? "answers selected" : "answers"} onClick={()=>{props.selectAnswer(item.id)}}>{item.answer}</p>
-        // return <p className= {
-        //     item.isHeld && props.questionHeld ? "answers selected" 
-        //     : item.isCorrect ? "answers correct" 
-        //     : item.isWrong ? "answers wrong" 
-        //     : "answers"} 
-        //     onClick={()=>{props.selectAnswer(item.id, props.questionId)}}>{item.answer}</p>
+        return <p className= {
+            item.isHeld ? "answers selected" 
+            : item.isCorrect ? "answers correct" 
+            : item.isWrong ? "answers wrong" 
+            : "answers"} 
+            onClick={()=>{props.handleSelectAnswer(item.id, props.questionId)}}>{item.answer}</p>
 
-        return  <div className= {item.isHeld ? "radio selected" 
-                        : item.isCorrect ? "radio correct"
-                        : item.isWrong ? "radio wrong"
-                        : "radio"
-                        }> 
-                    <input 
-                        type="radio"
-                        id={item.id}
-                        questionid={props.questionId}
-                        name={props.question}
-                        value={item.id}
-                        disabled = {item.disabled}
-                        onClick={props.handleSelectAnswer} />
-                    <label htmlFor={item.id}>{item.answer}</label>
-                </div>
+            // return <p className= {
+            //     item.isHeld && props.questionHeld ? "answers selected" 
+            //     : item.isCorrect ? "answers correct" 
+            //     : item.isWrong ? "answers wrong" 
+            //     : "answers"} 
+            //     onClick={()=>{props.selectAnswer(item.id, props.questionId)}}>{item.answer}</p>
+
+        // return  <div className= {item.isHeld ? "radio selected" 
+        //                 : item.isCorrect ? "radio correct"
+        //                 : item.isWrong ? "radio wrong"
+        //                 : "radio"
+        //                 }> 
+        //             <input 
+        //                 type="radio"
+        //                 id={item.id}
+        //                 questionid={props.questionId}
+        //                 name={props.question}
+        //                 value={item.id}
+        //                 disabled = {item.disabled}
+        //                 onClick={props.handleSelectAnswer} />
+        //             <label htmlFor={item.id}>{item.answer}</label>
+        //         </div>
 
         // return <div className= "radio" style = {styles}>                    
         //             <input 
