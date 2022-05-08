@@ -7,7 +7,7 @@ export default function Start(props) {
                         <p>Fun trivia games</p>
                     </div>
                     
-                    Please choose a category and difficulty level
+                    <p className = {props.isUserPrefChosen ? "error msg" : "msg"}>Please choose a category and difficulty level</p>
 
                     <form>
                         <select 
@@ -49,7 +49,6 @@ export default function Start(props) {
                             onChange={props.handleChange}
                             name="quizDifficulty"
                         >
-                            <option value="">-- Choose difficulty --</option>
                             <option value="easy">Easy 😃</option>
                             <option value="medium">Medium 😅</option>
                             <option value="hard">Hard 🥵</option>
