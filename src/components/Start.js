@@ -56,7 +56,7 @@ export default function Start(props) {
                     </form>
                     <button className="start-btn" onClick={props.startQuiz}>Start quiz</button>
             </div>
-            <p>Made with ❤️ by Obinna-Dev</p>
+            <p>Made with ❤️ by Obinna-Dev 2022</p>
         </section>
     )
 }
